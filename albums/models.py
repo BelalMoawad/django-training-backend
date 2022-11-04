@@ -24,7 +24,7 @@ class Song(models.Model) :
                                       processors=[ResizeToFill(100, 50)],
                                       format='JPEG',
                                       options={'quality': 60})
-    audio_file = models.FileField(upload_to="songs/audios")                                  
+    audio_file = models.FileField(upload_to="audios/")                                  
     def save(self, *args, **kwargs):
         if not self.song_name:
          self.song_name = self.alboom.album_name

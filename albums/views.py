@@ -18,20 +18,7 @@ class AlbumView(APIView) :
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                   
-
-class SongView(APIView) :
-    def get(self, request, *args, **kwargs) :
-        allSongs = Song.objects.all()
-        serializer = SongSerializer(allSongs, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs) :
-        serializer = SongSerializer(data=request.data)
-        if serializer.is_valid() :
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
+                     
 
 
 
