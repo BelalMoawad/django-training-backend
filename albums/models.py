@@ -3,7 +3,6 @@ from artists.models import Artist
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
-
 class Album(models.Model) :
     album_name = models.CharField(max_length = 30, default="New Album")
     creation_date = models.DateField(auto_now_add=True)
@@ -15,15 +14,24 @@ class Album(models.Model) :
     def __str__(self) :
         return self.album_name
 
+           
+
 class Song(models.Model) :
+    alboom = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="songs")
     song_name = models.CharField(max_length = 30, default = "New Album")
-    img = models.ImageField(upload_to = 'images/')
+    img = models.ImageField(upload_to='images/')
     img_thumbnail = ImageSpecField(source='img',
                                       processors=[ResizeToFill(100, 50)],
                                       format='JPEG',
                                       options={'quality': 60})
-
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="songs")
+    audio_file = models.FileField(upload_to="songs/audios")                                  
+    def save(self, *args, **kwargs):
+        if not self.song_name:
+         self.song_name = self.alboom.album_name
+        super(Song, self).save(*args, **kwargs)
+    
 
     def __str__(self) : 
         return self.song_name
+
+   
