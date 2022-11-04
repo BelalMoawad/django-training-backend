@@ -1,5 +1,5 @@
-from .models import Album, Song
-from .serializers import AlbumSerializer, SongSerializer
+from .models import Album
+from .serializers import AlbumSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
