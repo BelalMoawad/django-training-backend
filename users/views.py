@@ -1,16 +1,28 @@
-from django.contrib.auth import get_user_model
-
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
 from .serializers import UserSerializer
+from .models import User
+from rest_framework import status, permissions
 
+class UserView(APIView) :
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    UserModel View.
-    """
+    def get(self, request, pk) :
+        user = get_object_or_404(User, id=pk)
+        serializer = UserSerializer(user)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
-    queryset = get_user_model().objects.all()
+    def post(self, request, pk) :
+        user = get_object_or_404(User, id=pk)
+        serializer = UserSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data,status=status.HTTP_202_ACCEPTED)
+
+    def patch(self, request, pk) :
+        user = get_object_or_404(User, id=pk)
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)    
