@@ -2,11 +2,12 @@ from .models import Album
 from .serializers import AlbumSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, permissions
 
 #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 class AlbumView(APIView) :
+    permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs) :
         allAlbums = Album.objects.all()
         serializer = AlbumSerializer(allAlbums, many=True)

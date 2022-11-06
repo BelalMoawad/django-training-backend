@@ -4,17 +4,19 @@ from .models import Artist
 from .serializers import ArtistSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, permissions
 
 #/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
 class ArtistsView(APIView) :
+    permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs) :
         allArtists = Artist.objects.all()
         serializer = ArtistSerializer(allArtists, many=True)
         return Response(serializer.data)
 
 class ArtistView(APIView) :
+    permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs) :
         singleArtist = Artist.objects.all().get(stage_name = kwargs["id"])
         serializer1 = ArtistSerializer(singleArtist)
