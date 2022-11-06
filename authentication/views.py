@@ -4,6 +4,10 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken
 from rest_framework.permissions import AllowAny
 from .serializers import *
+
+class LogoutView(APIView):
+    Permission_classes = [AllowAny]
+
 class LoginView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
