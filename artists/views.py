@@ -15,10 +15,17 @@ class ArtistsView(APIView) :
         serializer = ArtistSerializer(allArtists, many=True)
         return Response(serializer.data)
 
+    def post(self, request, *args, **kwargs) :
+        serializer = ArtistSerializer(data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
 class ArtistView(APIView) :
     permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs) :
-        singleArtist = Artist.objects.all().get(stage_name = kwargs["id"])
+        singleArtist = Artist.objects.all().get(pk = kwargs["pk"])
         serializer1 = ArtistSerializer(singleArtist)
         singleArtistAlbums = Album.objects.all().filter(artist=singleArtist)
         serializer = AlbumSerializer(singleArtistAlbums, many=True)

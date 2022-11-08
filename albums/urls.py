@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.AlbumView.as_view())
+    path('', views.AlbumView.as_view(), name='albums')
 ]
