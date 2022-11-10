@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'artists',
     'users',
     'imagekit',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -58,7 +59,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny'
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2
 }
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -16,7 +16,7 @@ class TestCreateArtists :
         url = reverse('artists')
         response = client.post(url, data = data, format = 'json')  
         assert response.status_code == status.HTTP_201_CREATED
-
+    
     def test_posting_artist_with_missing_data(self) :
         data = {
             "stage_name" : "",
