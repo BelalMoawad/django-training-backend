@@ -4,10 +4,11 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer
 from .models import User
 from rest_framework import status, permissions
+from musicPlatform.permissions import IsAuthenticatedorReadOnly, IsSameUserOrReadOnly
 
 class UserView(APIView) :
+    # permission_classes = [IsAuthenticatedorReadOnly&IsSameUserOrReadOnly]
     permission_classes = [permissions.AllowAny]
-
     def get(self, request, pk) :
         user = get_object_or_404(User, id=pk)
         serializer = UserSerializer(user)

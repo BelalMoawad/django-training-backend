@@ -4,11 +4,12 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken
 from rest_framework.permissions import AllowAny
 from .serializers import *
-
+from musicPlatform.permissions import IsAuthenticatedorReadOnly,IsSuperUser
 
 
 class LoginView(APIView):
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
+    permission_classes=[~IsAuthenticatedorReadOnly]
     def post(self, request):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -29,7 +30,8 @@ class LoginView(APIView):
 
 
 class RegisterView(APIView):
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
+    permission_classes=[~IsAuthenticatedorReadOnly|IsSuperUser]
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

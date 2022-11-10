@@ -8,6 +8,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import mixins
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import *
+from musicPlatform.permissions import IsAuthenticatedorReadOnly,IsTheUserArtistOrReadOnly
 
 # /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
@@ -20,6 +21,7 @@ class MyResultsSetPagination(LimitOffsetPagination):
 
 class AlbumView(generics.ListAPIView, mixins.CreateModelMixin, generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
+    # permission_classes = [IsAuthenticatedorReadOnly&IsTheUserArtistOrReadOnly]
     serializer_class = AlbumSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ('album_cost', 'album_name')
@@ -39,6 +41,7 @@ class AlbumView(generics.ListAPIView, mixins.CreateModelMixin, generics.GenericA
 
 class ManualAlbumView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
+    # permission_classes = [IsAuthenticatedorReadOnly&IsTheUserArtistOrReadOnly]
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
 
